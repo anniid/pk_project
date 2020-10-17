@@ -1,81 +1,80 @@
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 100, bottom: 30, left: 30},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var margin = { top: 10, right: 100, bottom: 30, left: 60 },
+  width = 1000 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
+// Possible Selections from DropDown Menu
+var xAttribute = ["Select Attribute","HP", "Attack", "Defense", "Speed", "Special Attack", "Special Defense"]
+
+// append the chart as an SVG to the body of the page
 var svg = d3.select("#scatter")
   .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+  .attr("transform",
+    "translate(" + margin.left + "," + margin.top + ")");
 
 //Read the data
-d3.csv("data/pokemon.csv", function(data) {
-  var curX = "Type 1";
-  var curY = "winning percentage";
-
-  // List of groups (here I have one group per column)
-  var allGroup = ["Primary Type", "HP", "Attack", "Defense", "Speed", "Sp. Atk", "Sp. Def"]
-
+d3.csv("data/winning_ratio.csv", function (data) {
+  
   // add the options to the button
   d3.select("#selectButton")
     .selectAll('myOptions')
-    .data(allGroup)
+    .data(xAttribute)
     .enter()
     .append('option')
     .text(function (d) { return d; }) // text showed in the menu
     .attr("value", function (d) { return d; }) // corresponding value returned by the button
+   
 
-  
-})
-    /*
- 
-    // Add X axis
-    var xScale = d3
-      .scaleLinear()
-      .domain([0,300])
-      .range([ 0, width ]);
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+  // Add X axis
+  var x = d3
+    .scaleLinear()
+    .domain([0, 260])
+    .range([0, width]);
 
-    // Add Y axis
-    var yScale = d3
-      .scaleLinear()
-      .domain( [0,100])
-      .range([ height, 0 ]);
-    svg.append("g")
-      .call(d3.axisLeft(y));
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
 
-    // Initialize dots with group a
-    var dot = svg
-      .selectAll('circle')
-      .data(data)
-      .enter()
-      .append('circle')
-        .attr("cx", function(d) { return xScale(d[curX]) })
-        .attr("cy", function(d) { return yScale(d[curY]) })
-        .attr("r", 7)
-        .style("fill", "#69b3a2")
+  // Add Y axis
+  var y = d3
+    .scaleLinear()
+    .domain([0, 100])
+    .range([height, 0]);
+
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Initialize dots with first attribute
+  var dot = svg
+    .selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr("cx", function (d) { return x(+d.HP) })
+    .attr("cy", function (d) { return y(+d.Winning_Perc) })
+    .attr("r", 7)
+    .style("fill", "#FAD61D")
 
 
-    // A function that update the chart
-    function update(selectedGroup) {
+//get the chart to update where it is getting the x values
 
-      // Create new data with the selection?
-      var dataFilter = data.map(function(d){return {d., value:d[selectedGroup]} })
+//A function that update the chart
+function update(selectedGroup) {
 
-      // Give these new data to update line
-      dot
-        .data(dataFilter)
-        .transition()
-        .duration(1000)
-          .attr("cx", function(d) { return x(curX) })
-          .attr("cy", function(d) { return y(curY) })
-    }
+  // Create new data with the selection?
+  var dataFilter = data.map(function(d){return {x:d[selectedGroup], y:d.Winning_Perc} })
+
+  // Give these new data to update dots
+  dot
+    .data(dataFilter)
+    .transition()
+    .duration(1000)
+      .attr("cx", function(d) { return x(+x); })
+      .attr("cy", function(d) { return y(+y); })
+}
 
     // When the button is changed, run the updateChart function
     d3.select("#selectButton").on("change", function(d) {
@@ -85,5 +84,4 @@ d3.csv("data/pokemon.csv", function(data) {
         update(selectedOption)
     })
 
-})
-*/
+  })

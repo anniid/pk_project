@@ -4,20 +4,22 @@
 <meta charset="utf-8">
 <!--navBar-->
 
+</head>
 
 <!-- Load d3.js & our js -->
 <script src="https://d3js.org/d3.v4.js"></script>
-<script src="static/js/logic.js"></script>
 
 
+<header>
+    <h1>Pokemon Win Rate Vs. Attribute</h1>
+</header>
 <body>
+ <!-- Create a div where the graph will take place -->
+<div id="scatter"></div>
+
 <!-- Initialize a select button -->
 <select id="selectButton"></select>
 
-<!-- Create a div where the graph will take place -->
-<div id="scatter"></div>
-
-<!-- Color Scale -->
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 </body>
+<script src="static/js/logic.js"></script>
 </html>

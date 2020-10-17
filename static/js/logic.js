@@ -4,7 +4,10 @@ var margin = { top: 10, right: 100, bottom: 30, left: 60 },
   height = 500 - margin.top - margin.bottom;
 
 // Possible Selections from DropDown Menu
-var xAttribute = ["Select Attribute","HP", "Attack", "Defense", "Speed", "Special Attack", "Special Defense"]
+var prettyAttributes = ["Select Attribute","HP", "Attack", "Defense", "Special Attack", "Special Defense","Speed"]
+
+// column names (maybe I'll figure out how to do the pretty selections later. Right now, I just need a chart that updates)
+var xAttribute = ["HP", "Attack", "Defense", "Sp_Atk", "Sp_Def","Speed"]
 
 // append the chart as an SVG to the body of the page
 var svg = d3.select("#scatter")
@@ -59,9 +62,8 @@ d3.csv("data/winning_ratio.csv", function (data) {
     .style("fill", "#FAD61D")
 
 
-//get the chart to update where it is getting the x values
 
-//A function that update the chart
+//A function that updates the chart
 function update(selectedGroup) {
 
   // Create new data with the selection?
@@ -72,8 +74,8 @@ function update(selectedGroup) {
     .data(dataFilter)
     .transition()
     .duration(1000)
-      .attr("cx", function(d) { return x(+x); })
-      .attr("cy", function(d) { return y(+y); })
+      .attr("cx", function(d) { return x(+d.x); })
+      .attr("cy", function(d) { return y(+d.y); })
 }
 
     // When the button is changed, run the updateChart function

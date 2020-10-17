@@ -14,21 +14,28 @@ var svg = d3.select("#scatter")
 
 //Read the data
 d3.csv("data/pokemon.csv", function(data) {
+  var curX = "Type 1";
+  var curY = "winning percentage";
 
-    // List of groups 
-    var allGroup = ["Type 1", "Type 2", "HP", "Attack", "Defense", "Sp. Atk.", "Sp. Def", "Generation", "Legendary"]
+  // List of groups (here I have one group per column)
+  var allGroup = ["Primary Type", "HP", "Attack", "Defense", "Speed", "Sp. Atk", "Sp. Def"]
 
-    // add the options to the button
-    d3.select("#selectButton")
-      .selectAll('myOptions')
-     	.data(allGroup)
-      .enter()
-    	.append('option')
-      .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+  // add the options to the button
+  d3.select("#selectButton")
+    .selectAll('myOptions')
+    .data(allGroup)
+    .enter()
+    .append('option')
+    .text(function (d) { return d; }) // text showed in the menu
+    .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
+  
+})
+    /*
+ 
     // Add X axis
-    var xScale = d3.scaleLinear()
+    var xScale = d3
+      .scaleLinear()
       .domain([0,300])
       .range([ 0, width ]);
     svg.append("g")
@@ -36,8 +43,9 @@ d3.csv("data/pokemon.csv", function(data) {
       .call(d3.axisBottom(x));
 
     // Add Y axis
-    var yScale = d3.scaleLinear()
-      .domain( [0,200])
+    var yScale = d3
+      .scaleLinear()
+      .domain( [0,100])
       .range([ height, 0 ]);
     svg.append("g")
       .call(d3.axisLeft(y));
@@ -48,8 +56,8 @@ d3.csv("data/pokemon.csv", function(data) {
       .data(data)
       .enter()
       .append('circle')
-        .attr("cx", function(d) { return xScale(d[ValueA]) })
-        .attr("cy", function(d) { return yScale(d[winning_perc]) })
+        .attr("cx", function(d) { return xScale(d[curX]) })
+        .attr("cy", function(d) { return yScale(d[curY]) })
         .attr("r", 7)
         .style("fill", "#69b3a2")
 
@@ -58,15 +66,15 @@ d3.csv("data/pokemon.csv", function(data) {
     function update(selectedGroup) {
 
       // Create new data with the selection?
-      var dataFilter = data.map(function(d){return {time: d.time, value:d[selectedGroup]} })
+      var dataFilter = data.map(function(d){return {d., value:d[selectedGroup]} })
 
       // Give these new data to update line
       dot
         .data(dataFilter)
         .transition()
         .duration(1000)
-          .attr("cx", function(d) { return x(+d.time) })
-          .attr("cy", function(d) { return y(+d.value) })
+          .attr("cx", function(d) { return x(curX) })
+          .attr("cy", function(d) { return y(curY) })
     }
 
     // When the button is changed, run the updateChart function
@@ -78,3 +86,4 @@ d3.csv("data/pokemon.csv", function(data) {
     })
 
 })
+*/

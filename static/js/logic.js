@@ -28,16 +28,16 @@ d3.csv("data/pokemon.csv", function(data) {
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
     // Add X axis
-    var x = d3.scaleLinear()
-      .domain([0,10])
+    var xScale = d3.scaleLinear()
+      .domain([0,300])
       .range([ 0, width ]);
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
 
     // Add Y axis
-    var y = d3.scaleLinear()
-      .domain( [0,20])
+    var yScale = d3.scaleLinear()
+      .domain( [0,200])
       .range([ height, 0 ]);
     svg.append("g")
       .call(d3.axisLeft(y));
@@ -48,8 +48,8 @@ d3.csv("data/pokemon.csv", function(data) {
       .data(data)
       .enter()
       .append('circle')
-        .attr("cx", function(d) { return x(+d.time) })
-        .attr("cy", function(d) { return y(+d.valueA) })
+        .attr("cx", function(d) { return xScale(d[ValueA]) })
+        .attr("cy", function(d) { return yScale(d[winning_perc]) })
         .attr("r", 7)
         .style("fill", "#69b3a2")
 

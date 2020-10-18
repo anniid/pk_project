@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin = { top: 10, right: 100, bottom: 30, left: 60 },
+var margin = { top: 10, right: 100, bottom: 40, left: 60 },
   width = 1000 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
@@ -44,6 +44,14 @@ d3.csv("data/winning_ratio.csv", function (data) {
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
+    //axis label
+    svg.append('text')
+    .attr('x', width - 360)
+    .attr('y', height +35)
+    .attr('text-anchor', 'end')
+    .attr('class', 'label')
+    .text('Selected Attribute');
+
   // Add Y axis
   var y = d3
     .scaleLinear()
@@ -52,7 +60,14 @@ d3.csv("data/winning_ratio.csv", function (data) {
 
   svg.append("g")
     .call(d3.axisLeft(y));
-
+  
+     //axis label
+  svg.append('text')
+  .attr("transform", "translate(-290, 235)rotate(-90)")
+		.attr('x', -25)
+		.attr('y', 255)
+		.attr('class', 'label')
+    .text('Win Rate (%)');
 //custom colorscale
     var colorscale = d3.scaleOrdinal() // D3 Version 4
     .domain(["Normal", "Fire", "Water", "Electric","Grass","Ice", "Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon","Dark","Steel", "Fairy"])
@@ -78,6 +93,7 @@ d3.csv("data/winning_ratio.csv", function (data) {
     .attr("cx", function (d) { return x(+d.HP) })
     .attr("cy", function (d) { return y(+d.Winning_Perc) })
     .attr("r", 7)
+    .style('stroke', 'gray')
     .style("fill", function(d) { return colorscale(d.Type_1); })
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
@@ -105,15 +121,14 @@ d3.csv("data/winning_ratio.csv", function (data) {
             .style("opacity", 1);
         // select all dots and apply 0 opacity (hide)
         d3.selectAll(".dot")
-        // .transition()
-        // .duration(500)
+        .transition().duration(1000)
         .style("opacity", 0.0)
         // filter out the ones we want to show and apply properties
         .filter(function(d) {
             return d["Type_1"] == type;
         })
         .style("opacity", 1) // need this line to unhide dots
-        .style("stroke", "black")
+        .style('stroke', 'gray')
         // apply stroke rule
         .style("fill", function(d) {
             if (d.Type_1 == type) {
@@ -139,8 +154,12 @@ function update(selectedGroup) {
     .data(dataFilter)
     .transition()
     .duration(1000)
-      .attr("cx", function(d) { return x(+d.x); })
-      .attr("cy", function(d) { return y(+d.y); })
+    .attr("cx", function(d) { return x(+d.x); })
+    .attr("cy", function(d) { return y(+d.y); })
+    .style('stroke', 'gray')
+
+
+
 }
 
     // When the button is changed, run the updateChart function

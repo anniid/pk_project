@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin = { top: 10, right: 100, bottom: 30, left: 60 },
+var margin = { top: 10, right: 100, bottom: 50, left: 60 },
   width = 1000 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
@@ -40,6 +40,14 @@ d3.csv("data/winning_ratio.csv", function (data) {
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
+  
+    //axis label
+  svg.append('text')
+  .attr('x', width - 360)
+  .attr('y', height +35)
+  .attr('text-anchor', 'end')
+  .attr('class', 'label')
+  .text('Selected Attribute');
 
   // Add Y axis
   var y = d3
@@ -49,6 +57,15 @@ d3.csv("data/winning_ratio.csv", function (data) {
 
   svg.append("g")
     .call(d3.axisLeft(y));
+  
+yText = 'Winning Rate (%)';
+    //axis label
+  svg.append('text')
+  .attr("transform", "translate(-290, 235)rotate(-90)")
+		.attr('x', -25)
+		.attr('y', 255)
+		.attr('class', 'label')
+    .text('Win Rate (%)');
 
 //custom colorscale
     var colorscale = d3.scaleOrdinal() // D3 Version 4

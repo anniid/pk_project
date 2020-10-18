@@ -63,7 +63,7 @@ d3.csv("data/winning_ratio.csv", function (data) {
   // tooltip mouseover event handler
   var tipMouseover = function(d) {
     var color = colorscale(d.Type_1);
-    var html  = d.Name + ", #" + d.Num + "<br> <span style='color:" + color + ";'>" + "Primary Type: " + d.Type_1 + "</span></br>";
+    var html  ="<b>" + d.Name + ", #" + d.Num + "<br> Primary Type: " + "<span style='color:" + color + ";'>" + d.Type_1 + "</span></br></b>";
 
       tooltip.html(html)
           .style("left", (d3.event.pageX + 15) + "px")

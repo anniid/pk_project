@@ -50,6 +50,36 @@ d3.csv("data/winning_ratio.csv", function (data) {
   svg.append("g")
     .call(d3.axisLeft(y));
 
+//custom colorscale
+    var colorscale = d3.scaleOrdinal() // D3 Version 4
+    .domain(["Normal", "Fire", "Water", "Electric","Grass","Ice", "Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon","Dark","Steel", "Fairy"])
+    .range(["#A8A77A", "#EE8130","#6390F0","#F7D02C","#7AC74C","#96D9D6", "#C22E28", "#A33EA1", "#E2BF65", "#A98FF3", "#F95587", "#A6B91A", "#B6A136", "#735797", "#6F35FC", "#705746","#B7B7CE", "#D685AD"]);
+
+  // Tooltip instantiate
+  var tooltip = d3.select("#scatter").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+  // tooltip mouseover event handler
+  var tipMouseover = function(d) {
+    var color = colorscale(d.Type_1);
+    var html  = d.Name + ", #" + d.Num + "<br> <span style='color:" + color + ";'>" + "Primary Type: " + d.Type_1 + "</span></br>";
+
+      tooltip.html(html)
+          .style("left", (d3.event.pageX + 15) + "px")
+          .style("top", (d3.event.pageY - 28) + "px")
+        .transition()
+          .duration(200) // ms
+          .style("opacity", .9) // started as 0!
+
+  };
+  // tooltip mouseout event handler
+  var tipMouseout = function(d) {
+      tooltip.transition()
+          .duration(300) // ms
+          .style("opacity", 0); // don't care about position!
+  };
+
   // Initialize dots with first attribute
   var dot = svg
     .selectAll('circle')
@@ -59,9 +89,9 @@ d3.csv("data/winning_ratio.csv", function (data) {
     .attr("cx", function (d) { return x(+d.HP) })
     .attr("cy", function (d) { return y(+d.Winning_Perc) })
     .attr("r", 7)
-    .style("fill", "#FAD61D")
-
-
+    .style("fill", function(d) { return colorscale(d.Type_1); })
+      .on("mouseover", tipMouseover)
+      .on("mouseout", tipMouseout);
 
 //A function that updates the chart
 function update(selectedGroup) {

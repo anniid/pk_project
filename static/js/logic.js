@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin = { top: 10, right: 100, bottom: 50, left: 60 },
+var margin = { top: 10, right: 100, bottom: 40, left: 60 },
   width = 1000 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
@@ -109,6 +109,46 @@ yText = 'Winning Rate (%)';
     .style("fill", function(d) { return colorscale(d.Type_1); })
       .on("mouseover", tipMouseover)
       .on("mouseout", tipMouseout);
+      
+  //legend
+  var clicked = ""
+  var legend = svg.selectAll(".legend")
+      .data(colorscale.domain())
+      .enter().append("g")
+      .classed("legend", true)
+      .attr("transform", function(d, i) {
+          return "translate(0," + i * 20 + ")";
+      });
+  legend.append("rect")
+      .attr("x", width)
+      .attr("width", 12)
+      .attr("height", 12)
+      .style("fill", function(d) { return colorscale(d); });
+
+  legend.on("click", function(type) {
+      // select all dots and apply 0 opacity (hide)
+      d3.selectAll(".dot").style("opacity", 1)
+     
+      // filter out the ones we want to show and apply properties
+
+    if (clicked !== d){
+      d3.selectAll(".dot")
+        .filter(function(e){
+        return e.Type_1 !== d;
+      })
+        .style("opacity",0.1)
+      clicked = d
+    }
+      else{
+        clicked = ""
+      }
+    });
+
+    legend.append("text")
+        .attr("x", width + 25)
+        .attr("dy", ".65em")
+        .text(function(d) { return d; });
+
 
 //A function that updates the chart
 function update(selectedGroup) {

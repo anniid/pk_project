@@ -22,6 +22,8 @@ var svg = d3.select("#scatter")
 //Read the data
 d3.csv("data/winning_ratio.csv", function (data) {
   
+  //create a var for the primary type just to see if that helps.
+  var primary = data.Type_1
   // add the options to the button
   d3.select("#selectButton")
     .selectAll('myOptions')
@@ -68,10 +70,11 @@ d3.csv("data/winning_ratio.csv", function (data) {
   
   // Initialize dots with first attribute
   var dot = svg
-    .selectAll('circle')
+    .selectAll('dot')
     .data(data)
     .enter()
     .append('circle')
+    .classed('dot', true)
     .attr("cx", function (d) { return x(+d.HP) })
     .attr("cy", function (d) { return y(+d.Winning_Perc) })
     .attr("r", 7)

@@ -1,3 +1,17 @@
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2980b9;
+  background-position: bottom;
+}
+
+header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .d3-tip {
     line-height: 1;
     font-weight: bold;
@@ -6,6 +20,7 @@
     color:white;
     border-radius: 2px;
     opacity: .5;
+    z-index: 15;
   }
   
   /* Creates a small triangle extender for the tooltip */
@@ -27,3 +42,12 @@
     top: 100%;
     left: 0;
   }
+
+  #scatter{
+    display: flex;
+    align-content: stretch;    
+    justify-content: center;
+    border-radius: 40px;
+    z-index: 10;
+  }
+  

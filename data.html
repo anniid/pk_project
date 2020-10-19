@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/styleDash.css">
     <style>
     h1,h2,h3,h4,h5,h6 {font-family: "Oswald"}
     body {font-family: "Open Sans"}
@@ -17,7 +17,9 @@
  <title>Pokemon_Project</title>
  <meta name="description" content="Pokemon_Project">
  <meta name="author" content="Mica, Annii, and Regi">
-
+<!-- Load d3.js & d3.tip-->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
 </head>
 
     <body> 
@@ -32,3 +34,28 @@
             <a href="vis_2.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">VIS 2</a>
             <a href="vis_3.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">VIS 3</a>
         </div>
+        <header>
+            <h1>Pokemon Win Rate Vs. Attribute</h1>
+        </header>
+        <!-- Initialize a select button -->
+        <div class="w3-row">
+            <div class="w3-col" style="width:20%">
+              
+            </div>
+            <div class="w3-content" style="max-width:100px">
+                <h3></h3>
+                <select class="w3-select" name="option" ></select>
+                <h3></h3>
+            </div>
+            <div class="w3-col" style="width:60%">
+              
+            </div>
+          </div>
+        
+         <!-- Create a div where the graph will take place -->
+        <div id="scatter"></div>
+        
+
+    </body>
+    <script src="static/js/logic.js"></script>
+    </html>

@@ -9,11 +9,23 @@ var prettyAttributes = ["Select Attribute","HP", "Attack", "Defense", "Special A
 // column names (maybe I'll figure out how to do the pretty selections later. Right now, I just need a chart that updates)
 var xAttribute = ["HP", "Attack", "Defense", "Sp_Atk", "Sp_Def","Speed"]
 
+// add the options to the button
+d3.select(".w3-select")
+.selectAll('myOptions')
+.data(xAttribute)
+.enter()
+.append('option')
+.text(function (d) { return d; }) // text showed in the menu
+.attr("value", function (d) { return d; }) // corresponding value returned by the button
+.attr("transform","translate(" + (width-margin.right) + "," + margin.top + ")");
+
 // append the chart as an SVG to the body of the page
 var svg = d3.select("#scatter")
   .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
+  .style('background-color', "white")
+  .style('border-radius', "25 px")
   .append("g")
   .attr("transform",
     "translate(" + margin.left + "," + margin.top + ")");
@@ -22,17 +34,6 @@ var svg = d3.select("#scatter")
 //Read the data
 d3.csv("data/winning_ratio.csv", function (data) {
   
-  //create a var for the primary type just to see if that helps.
-  var primary = data.Type_1
-  // add the options to the button
-  d3.select("#selectButton")
-    .selectAll('myOptions')
-    .data(xAttribute)
-    .enter()
-    .append('option')
-    .text(function (d) { return d; }) // text showed in the menu
-    .attr("value", function (d) { return d; }) // corresponding value returned by the button
-   
 
   // Add X axis
   var x = d3
@@ -148,22 +149,40 @@ function update(selectedGroup) {
 
   // Create new data with the selection?
   var dataFilter = data.map(function(d){return {x:d[selectedGroup], y:d.Winning_Perc} })
+ /* //delete dots
+  dot.selectAll("*").remove();
 
-  // Give these new data to update dots
+  //rebuild dots
+  var dot = svg
+    .selectAll('dot')
+    .data(dataFilter)
+    .enter()
+    .append('circle')
+    .classed('dot', true)
+    .transition()
+    .duration(1000)
+    .attr("cx", function (d) { return x(+d.x) })
+    .attr("cy", function (d) { return y(+d.y) })
+    .attr("r", 7)
+    .style('stroke', 'gray')
+    .style("fill", function(d) { return colorscale(d.Type_1); })
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
+  */    
+
+  // Give the new data to update dots
   dot
     .data(dataFilter)
     .transition()
     .duration(1000)
     .attr("cx", function(d) { return x(+d.x); })
     .attr("cy", function(d) { return y(+d.y); })
-    .style('stroke', 'gray')
-
-
+  
 
 }
 
     // When the button is changed, run the updateChart function
-    d3.select("#selectButton").on("change", function(d) {
+    d3.select(".w3-select").on("change", function(d) {
         // recover the option that has been chosen
         var selectedOption = d3.select(this).property("value")
         // run the updateChart function with this selected option

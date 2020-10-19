@@ -80,7 +80,7 @@ d3.csv("data/winning_ratio.csv", function (data) {
   .attr("class", "d3-tip")
   .offset([-10, 0])
   .html(function(d) {
-      return "<b>" + d.Name + ", #" + d.Num + "<br> Primary Type: " + "<span style='color:" + colorscale(d.Type_1) + ";'>" + d.Type_1 + "</span></br></b>";
+      return "<b>" + d.Name + ", #" + d.Num + "<br> Primary Type: " + "<span style='color:" + colorscale(d.Type_1) + ";'>" + d.Type_1;
   });
   svg.call(tip);
   
